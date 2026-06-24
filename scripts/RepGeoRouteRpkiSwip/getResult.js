@@ -93,7 +93,7 @@ function renderResult(response,paramId){
 
         const resultView = document.createElement("div");
         resultView.className = "result-div";
-        resultView.style.cssText = "margin-top:20px; padding:0 20px;";
+        resultView.style.cssText = "margin-top:20px; padding:0 20px;border:1px solid white";
         resultView.innerHTML = `
             <table style="border-collapse:collapse; width:50%; margin:0 auto;">
                 <thead>
