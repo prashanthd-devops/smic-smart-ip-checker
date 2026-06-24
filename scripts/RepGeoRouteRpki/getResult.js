@@ -267,7 +267,8 @@ async function repCheck(value) {
     }
 
     const response = await fetch(
-        `http://localhost:5000/blacklistcheck?ip=${encodeURIComponent(value)}`
+        // `http://localhost:5000/blacklistcheck?ip=${encodeURIComponent(value)}`
+        `/blacklistcheck?ip=${encodeURIComponent(value)}`
     );
 
 
@@ -282,7 +283,8 @@ async function repCheck(value) {
 async function geoCheck(value) {
 
     const response = await fetch(
-        `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
+        // `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
+        `/geocheck?ip=${encodeURIComponent(value)}`
     );
 
 
@@ -297,7 +299,8 @@ async function geoCheck(value) {
 async function routeCheck(value) {
 
     const response = await fetch(
-        `http://localhost:5000/routecheck?subnet=${encodeURIComponent(value)}`
+        // `http://localhost:5000/routecheck?subnet=${encodeURIComponent(value)}`
+        `/routecheck?subnet=${encodeURIComponent(value)}`
     );
 
 
