@@ -33,7 +33,7 @@ deploy:
   stage: deploy
 
   tags:
-    - privileged
+    - smicrunner
 
   image: alpine:latest
 
