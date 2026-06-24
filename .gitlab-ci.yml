@@ -1,0 +1,24 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: prashanthdhanasekar/smic
+
+stages:
+  - build
+
+build-and-push:
+  stage: build
+
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+  script:
+    - docker build -t $IMAGE_NAME:v2 .
+    - docker push $IMAGE_NAME:v2
+
+  only:
+    - master
