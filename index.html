@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart IP Checker</title>
+  <link rel="stylesheet" href="./styles/RepGeoRoute.css">
+  <link rel="stylesheet" href="./styles/IPReport.css">
+</head>
+<body>
+    <header>
+        <h1>Smart IP Checker</h1>
+    </header>
+    <div class="body-div">
+      <main>
+        <section class="optionview-content">
+          <div style="display: flex; gap:10px;">
+            <div class="card rep" onclick="pageView('rep')">
+              <h3>IP Reputation</h3>
+              <p>
+                Verify whether an IP address is listed on major DNS-based
+                blacklists such as Spamhaus, Barracuda, SpamCop,
+                UCEPROTECT, and other industry-recognized reputation services.
+              </p>
+              <div class="card-btn">
+                <b style="color:coral">Click to Explore</b>
+              </div>
+            </div>
+            <div class="card geo" onclick="pageView('geo')">
+              <h3>IP Geolocation</h3>
+              <p>
+                Country, ASN, and Organization lookup from MaxMind, IPinfo, IP2Location, and IPHub.
+              </p>
+              <div class="card-btn route">
+                <b style="color:coral">Click to Explore</b>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex;gap:10px;">
+            <div class="card route" onclick="pageView('route')">
+                <h3>IP Validation</h3>
+                <p>
+                    Prefix and ASN validation using Internet Routing Registry (IRR) explorer.
+                </p>
+                <div class="card-btn">
+                  <b style="color:coral">Click to Explore</b>
+                </div>
+            </div>
+
+            <div class="card ip-report" onclick="ipPageView()">
+                <h3>IP report</h3>
+                <p>
+                    Upload an UB IP inventory file to generate a summarized report of available IPv4 subnets and allocation groups.
+                </p>
+                <div class="card-btn">
+                  <b style="color:coral">Click to Explore</b>
+                </div>
+            </div>
+          </div>
+
+          <div style="display: flex;gap:10px;">
+            <div class="card rpki-ops" onclick="opsRpki()">
+                <h3>RPKI Operations</h3>
+                <p>
+                    Create and delete RPKI Route Origin Authorizations (ROAs) via the ARIN REST API.
+                </p>
+                <div class="card-btn">
+                  <b style="color:coral">Click to Explore</b>
+                </div>
+            </div>
+
+            <div class="card swip-ops" onclick="opsSwip()">
+                <h3>SWIP Operations</h3>
+                <p>
+                    Manage SWIP reassignments and customer IP registrations via the ARIN WHOIS database.
+                </p>
+                <div class="card-btn">
+                  <b style="color:coral">Click to Explore</b>
+                </div>
+            </div>
+          </div>
+      </section>
+      </main>
+    </div>
+  <footer>American Cloud - Open Colo</footer>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="./scripts/RepGeoRouteRpki/getResult.js"></script>
+  <script src="./scripts/RepGeoRouteRpki/pageView.js"></script>
+  <script src="./scripts/RepGeoRouteRpki/setRPKI.js"></script>
+  <script src="./scripts/IPReport/IpPageView.js"></script>
+  <script src="./scripts/IPReport/IpReport.js"></script>
+  <script>
+    function opsSwip() {
+        document.querySelector("header").style.display = "none";
+        document.querySelector("footer").style.display = "none";
+
+        document.querySelector("main").innerHTML = `
+            <div
+                style="
+                  display:flex;
+                  flex-direction:column;
+                  align-items:center;
+                  gap:30px;
+                  width:400px;
+                  margin:80px auto;
+                  padding:30px;
+                  border:1px solid white;
+                  border-radius:8px;
+                  box-shadow:2px 2px 2px rgb(22,22,22);
+                "
+            >
+                <div>
+                  <img src="./assets/under-construction.png" alt="Under Development" 
+                        style="
+                                width: 100%;
+                                max-width: 320px;
+                                height: auto;
+                                display:block;
+                              "
+                  >
+                <div>
+                  <button id="back-btn"style="padding:8px 16px; cursor:pointer; border:1px solid white;">Back</button>
+                </div>
+            </div>
+        `;
+          document.querySelector("#back-btn").addEventListener("click", () => {
+            location.reload();
+        });  
+    }
+  </script>
+</body>
+</html>
