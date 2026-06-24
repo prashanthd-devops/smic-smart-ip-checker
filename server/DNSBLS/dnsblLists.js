@@ -159,24 +159,24 @@
 // export default dnsblLists;
 
 const PRIORITY_DNSBLS = [
-    {
-        name:    "Spamhaus SBL",
-        domain:  "sbl.spamhaus.org",
-        removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
-        info:    "IPs Spamhaus recommends avoiding for receiving email",
-    },
-    {
-        name:    "Spamhaus PBL",
-        domain:  "pbl.spamhaus.org",
-        removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
-        info:    "End-user IP ranges that should not send unauthenticated SMTP",
-    },
-    {
-        name:    "Spamhaus ZEN",
-        domain:  "zen.spamhaus.org",
-        removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
-        info:    "Combined Spamhaus SBL, XBL and PBL zones",
-    },
+    // {
+    //     name:    "Spamhaus SBL",
+    //     domain:  "sbl.spamhaus.org",
+    //     removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
+    //     info:    "IPs Spamhaus recommends avoiding for receiving email",
+    // },
+    // {
+    //     name:    "Spamhaus PBL",
+    //     domain:  "pbl.spamhaus.org",
+    //     removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
+    //     info:    "End-user IP ranges that should not send unauthenticated SMTP",
+    // },
+    // {
+    //     name:    "Spamhaus ZEN",
+    //     domain:  "zen.spamhaus.org",
+    //     removal: (ip) => `https://check.spamhaus.org/results/?query=${ip}`,
+    //     info:    "Combined Spamhaus SBL, XBL and PBL zones",
+    // },
     {
         name:    "Barracuda Central",
         domain:  "b.barracudacentral.org",
