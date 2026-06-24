@@ -1,0 +1,191 @@
+// Controllers/swipDetailedController.js
+import axios from "axios";
+
+const ARIN_API_KEY = process.env.ARIN_API_KEY;
+const ARIN_BASE    = "https://reg.arin.net/rest";
+const SLEEP_MS     = 2000;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const ipToInt = (ip) =>
+  ip.split(".").reduce((acc, oct) => (acc << 8) + parseInt(oct, 10), 0);
+
+const intToIp = (n) =>
+  [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join(".");
+
+const normalizeIP = (ip) => ip.split(".").map(Number).join(".");
+
+const toStr = (d) => {
+  if (!d) return "";
+  if (typeof d === "string") return d;
+  try { return d.toString(); } catch { return String(d); }
+};
+
+const pick = (str, re) => {
+  try { return str.match(re)?.[1]; } catch { return undefined; }
+};
+
+const arinGet = (path) =>
+  axios.get(`${ARIN_BASE}${path}?apikey=${ARIN_API_KEY}`, {
+    headers: { Accept: "application/xml" },
+    timeout: 20000,
+  });
+
+const arinPut = (path, payload) =>
+  axios.put(`${ARIN_BASE}${path}?apikey=${ARIN_API_KEY}`, payload, {
+    headers: { "Content-Type": "application/xml" },
+    timeout: 20000,
+  });
+
+const arinDelete = (path) =>
+  axios.delete(`${ARIN_BASE}${path}?apikey=${ARIN_API_KEY}`, { timeout: 20000 });
+
+// ── Main handler ─────────────────────────────────────────────────────────────
+
+export const detailedSWIPUpdate = async (req, res) => {
+  try {
+    const { ipArray = [], orgID, confirmations = {} } = req.body;
+
+    if (!orgID) {
+      return res.status(400).json({
+        status: "error",
+        responses: [{ ip: null, logs: ["❌ orgID is required."], error: true }],
+      });
+    }
+
+    const responses = [];
+    console.log("\n=== detailedSWIPUpdate ===");
+    console.log("IPs:", ipArray, "Org:", orgID);
+
+    for (const ipEntry of ipArray) {
+      const logs = [];
+      console.log(`\n--- Processing: ${ipEntry} ---`);
+      logs.push(`🚀 Processing ${ipEntry}…`);
+
+      try {
+        const [startIP, cidr] = ipEntry.split("/");
+        const hostBits  = Math.pow(2, 32 - parseInt(cidr, 10));
+        const endIP     = intToIp(ipToInt(startIP) + hostBits - 1);
+        const netHandle = `NET-${startIP.replace(/\./g, "-")}-1`;
+
+        // ── STEP 1: Check existing NET ──────────────────────────────
+        logs.push("🔍 Checking for active entries…");
+
+        let existingBlock = null;
+
+        try {
+          const netResp = await arinGet(`/net/${netHandle}`);
+          const xml     = toStr(netResp.data);
+
+          const start = pick(xml, /<startAddress>(.*?)<\/startAddress>/);
+          const len   = pick(xml, /<cidrLength>(.*?)<\/cidrLength>/);
+          if (start && len) existingBlock = `${normalizeIP(start)}/${len}`;
+          logs.push(`⚠️ Existing network found: ${existingBlock}`);
+
+          if (!confirmations[ipEntry]) {
+            console.log("Confirm required for", ipEntry);
+            return res.json({
+              status: "pending",
+              responses: [
+                {
+                  ip: ipEntry,
+                  logs,
+                  confirmRequired: true,
+                  existingBlock,
+                  message: `Network ${existingBlock} already exists. Overwrite?`,
+                },
+              ],
+            });
+          }
+
+          if (confirmations[ipEntry] === "no") {
+            logs.push(`⏭️ Skipped ${ipEntry}`);
+            responses.push({ ip: ipEntry, logs, cancelled: true });
+            continue;
+          }
+
+          // ── Delete existing NET ──────────────────────────────────
+          try {
+            await arinDelete(`/net/${netHandle}`);
+            logs.push(`✅ Deleted existing NET: ${netHandle}`);
+            await sleep(SLEEP_MS);
+          } catch (e) {
+            const body = toStr(e.response?.data || e.message);
+            logs.push(`⚠️ Delete NET issue: ${body}`);
+          }
+
+        } catch (err) {
+          const errXml = toStr(err.response?.data || err.message);
+          const code   = pick(errXml, /<code>(.*?)<\/code>/);
+          if (code === "E_OBJECT_NOT_FOUND" || /not found/i.test(errXml)) {
+            logs.push("ℹ️ No existing network found.");
+          } else {
+            logs.push(`❌ NET check failed: ${errXml || err.message}`);
+            responses.push({ ip: ipEntry, logs, error: true });
+            continue;
+          }
+        }
+
+        // ── STEP 2: Get parent NET handle ───────────────────────────
+        let parentNetHandle = null;
+        try {
+          await sleep(SLEEP_MS);
+          const pResp = await arinGet(`/net/parentNet/${startIP}/${endIP}`);
+          const pStr  = toStr(pResp.data);
+          parentNetHandle = pick(pStr, /<handle>(.*?)<\/handle>/);
+          if (!parentNetHandle) throw new Error("Handle missing in response");
+          logs.push(`📡 Parent NET: ${parentNetHandle}`);
+        } catch (err) {
+          const errXml = toStr(err.response?.data || err.message);
+          logs.push(`❌ Parent NET lookup failed: ${errXml || err.message}`);
+          responses.push({ ip: ipEntry, logs, error: true });
+          continue;
+        }
+
+        // ── STEP 3: Reassign to Org ─────────────────────────────────
+        try {
+          await sleep(SLEEP_MS);
+          const netPayload = `<net xmlns="http://www.arin.net/regrws/core/v1">
+                                <version>4</version>
+                                <orgHandle>${orgID}</orgHandle>
+                                <netBlocks>
+                                    <netBlock>
+                                    <type>S</type>
+                                    <startAddress>${startIP}</startAddress>
+                                    <endAddress>${endIP}</endAddress>
+                                    <cidrLength>${cidr}</cidrLength>
+                                    </netBlock>
+                                </netBlocks>
+                                <parentNetHandle>${parentNetHandle}</parentNetHandle>
+                                <netName>${netHandle}</netName>
+                            </net>`;    
+
+          await arinPut(`/net/${parentNetHandle}/reassign`, netPayload);
+          logs.push("🎉 SWIP reassigned successfully.");
+          responses.push({ ip: ipEntry, logs, reassignment: "SUCCESS" });
+        } catch (err) {
+          const errXml = toStr(err.response?.data || err.message);
+          logs.push(`❌ Reassignment failed: ${errXml || err.message}`);
+          responses.push({ ip: ipEntry, logs, error: true });
+        }
+
+      } catch (err) {
+        const msg = err.message || String(err);
+        logs.push(`❌ Unexpected error: ${msg}`);
+        console.error("Unexpected error for", ipEntry, err);
+        responses.push({ ip: ipEntry, logs, error: true });
+      }
+    }
+
+    return res.json({ status: "done", responses });
+
+  } catch (fatal) {
+    console.error("Fatal error in detailedSWIPUpdate:", fatal);
+    return res.status(500).json({
+      status: "error",
+      responses: [{ ip: null, logs: [`Fatal: ${fatal.message}`], error: true }],
+    });
+  }
+};

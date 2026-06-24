@@ -77,7 +77,7 @@ function renderResult(response,paramId){
 
         const rows = value.result === "No BlackList Found"
             ? `<tr>
-                <td colspan="3" style="text-align:center; padding:8px; border:1px solid black;">
+                <td colspan="3" style="text-align:center; padding:8px; border:1px solid white;">
                     ✓ No blacklist found
                 </td>
             </tr>`
@@ -98,9 +98,9 @@ function renderResult(response,paramId){
             <table style="border-collapse:collapse; width:50%; margin:0 auto;">
                 <thead>
                     <tr>
-                        <th style="border:1px solid black; padding:8px;">IP</th>
-                        <th style="border:1px solid black; padding:8px;">Domain</th>
-                        <th style="border:1px solid black; padding:8px;">Removal</th>
+                        <th style="border:1px solid white; padding:8px;">IP</th>
+                        <th style="border:1px solid white; padding:8px;">Domain</th>
+                        <th style="border:1px solid white; padding:8px;">Removal</th>
                     </tr>
                 </thead>
                 <tbody>${rows}</tbody>
@@ -267,8 +267,8 @@ async function repCheck(value) {
     }
 
     const response = await fetch(
-        // `http://localhost:5000/blacklistcheck?ip=${encodeURIComponent(value)}`
-        `/blacklistcheck?ip=${encodeURIComponent(value)}`
+        `http://localhost:5000/blacklistcheck?ip=${encodeURIComponent(value)}`
+        // `/blacklistcheck?ip=${encodeURIComponent(value)}`
     );
 
 
@@ -283,8 +283,8 @@ async function repCheck(value) {
 async function geoCheck(value) {
 
     const response = await fetch(
-        // `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
-        `/geocheck?ip=${encodeURIComponent(value)}`
+        `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
+        // `/geocheck?ip=${encodeURIComponent(value)}`
     );
 
 
@@ -299,8 +299,8 @@ async function geoCheck(value) {
 async function routeCheck(value) {
 
     const response = await fetch(
-        // `http://localhost:5000/routecheck?subnet=${encodeURIComponent(value)}`
-        `/routecheck?subnet=${encodeURIComponent(value)}`
+        `http://localhost:5000/routecheck?subnet=${encodeURIComponent(value)}`
+        // `/routecheck?subnet=${encodeURIComponent(value)}`
     );
 
 

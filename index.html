@@ -19,7 +19,7 @@
               <h3>IP Reputation</h3>
               <p>
                 Verify whether an IP address is listed on major DNS-based
-                blacklists such as Spamhaus, Barracuda, SpamCop,
+                blacklists such as Barracuda, SpamCop,
                 UCEPROTECT, and other industry-recognized reputation services.
               </p>
               <div class="card-btn">
@@ -85,49 +85,10 @@
     </div>
   <footer>American Cloud - Open Colo</footer>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="./scripts/RepGeoRouteRpki/getResult.js"></script>
-  <script src="./scripts/RepGeoRouteRpki/pageView.js"></script>
-  <script src="./scripts/RepGeoRouteRpki/setRPKI.js"></script>
+  <script src="./scripts/RepGeoRouteRpkiSwip/getResult.js"></script>
+  <script src="./scripts/RepGeoRouteRpkiSwip/pageView.js"></script>
+  <script src="./scripts/RepGeoRouteRpkiSwip/setRPKI.js"></script>
   <script src="./scripts/IPReport/IpPageView.js"></script>
   <script src="./scripts/IPReport/IpReport.js"></script>
-  <script>
-    function opsSwip() {
-        document.querySelector("header").style.display = "none";
-        document.querySelector("footer").style.display = "none";
-
-        document.querySelector("main").innerHTML = `
-            <div
-                style="
-                  display:flex;
-                  flex-direction:column;
-                  align-items:center;
-                  gap:30px;
-                  width:400px;
-                  margin:80px auto;
-                  padding:30px;
-                  border:1px solid white;
-                  border-radius:8px;
-                  box-shadow:2px 2px 2px rgb(22,22,22);
-                "
-            >
-                <div>
-                  <img src="./assets/under-construction.png" alt="Under Development" 
-                        style="
-                                width: 100%;
-                                max-width: 320px;
-                                height: auto;
-                                display:block;
-                              "
-                  >
-                <div>
-                  <button id="back-btn"style="padding:8px 16px; cursor:pointer; border:1px solid white;">Back</button>
-                </div>
-            </div>
-        `;
-          document.querySelector("#back-btn").addEventListener("click", () => {
-            location.reload();
-        });  
-    }
-  </script>
 </body>
 </html>
