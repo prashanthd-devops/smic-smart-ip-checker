@@ -41,8 +41,8 @@ async function submitSimpleSwip(prefixes, orgID, confirmations = {}) {
     showProcessing();
 
     try {
-        const url = "http://localhost:5000";
-        const data = await swipFetch(`${url}/swip/simple`, {
+        // const url = "http://localhost:5000";
+        const data = await swipFetch("/swip/simple", {
             ipArray: prefixes,
             orgID,
             confirmations
@@ -73,8 +73,8 @@ async function submitDetailedSwip(prefixes, orgID, confirmations = {}) {
     showProcessing();
 
     try {
-        const url = "http://localhost:5000"
-        const data = await swipFetch(`${url}/swip/detailed`, {
+        // const url = "http://localhost:5000"
+        const data = await swipFetch("/swip/detailed", {
             ipArray: prefixes,
             orgID,
             confirmations

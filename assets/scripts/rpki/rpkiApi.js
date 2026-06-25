@@ -31,7 +31,7 @@ async function setRPKI(values) {
     try {
 
         const url =
-            `http://localhost:5000/rpkicreate?` +
+            `/rpkicreate?` +
             `ips=${encodeURIComponent(ipArr.join(","))}` +
             `&asn=${encodeURIComponent(values.asn)}` +
             `&roa=${encodeURIComponent(values.roa)}` +
@@ -92,7 +92,7 @@ async function remRPKI(values) {
     try {
 
         const url =
-            `http://localhost:5000/rpkidelete?` +
+            `/rpkidelete?` +
             `ips=${encodeURIComponent(ipArr.join(","))}` +
             `&asn=${encodeURIComponent(values.asn)}` +
             `&org=${encodeURIComponent(values.org)}`;
