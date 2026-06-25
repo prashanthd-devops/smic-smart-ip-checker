@@ -1,0 +1,225 @@
+/* =====================================
+   TOOL PAGE
+===================================== */
+.tool-page{
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+}
+
+.tool-card{
+    width:100%;
+    max-width:750px;
+    background:#211036;
+    border:1px solid #40355c;
+    border-radius:12px;
+    padding:30px;
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+    animation:fadeUp .3s ease;
+}
+
+.tool-card h1{
+    text-align:center;
+    margin-bottom:12px;
+    font-size:30px;
+}
+
+.tool-description{
+    color:#cfcfcf;
+    text-align:center;
+    margin-bottom:30px;
+    line-height:1.6;
+}
+
+.tool-input{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.tool-input .ip-input{
+    flex:1;
+}
+
+.tool-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+/* =====================================
+   INPUTS
+===================================== */
+.ip-input{
+    width:100%;
+    padding:12px 14px;
+    font-size:15px;
+}
+
+/* =====================================
+   RESULTS
+===================================== */
+#result-section{
+    margin-top:30px;
+}
+
+.result-card{
+    margin-top:30px;
+    border:1px solid #35224d;
+    border-radius:12px;
+    background:#211036;
+    padding:28px;
+    animation:fadeUp .25s ease;
+}
+
+.result-title{
+    text-align:center;
+    margin-bottom:18px;
+    font-size:22px;
+    font-weight:600;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+    border-radius:10px;
+}
+
+.result-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.result-table th{
+    padding:14px;
+    background:#33214f;
+    color:#fff;
+    border:1px solid #463061;
+    text-align:left;
+    font-weight:600;
+}
+
+.result-table td{
+    padding:12px;
+    border:1px solid #463061;
+    color:#d8d8d8;
+    vertical-align:top;
+}
+
+.result-table tbody tr:nth-child(even){
+    background:#28163d;
+}
+
+.result-table tbody tr:hover{
+    background:#2c1845;
+}
+
+.result-clear{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+
+}
+
+.result-table tbody tr{
+    transition:background .2s ease;
+}
+
+.result-subtitle{
+    margin-bottom:20px;
+    color:#cfcfcf;
+    font-size:15px;
+    text-align:center;
+}
+
+/* ============================
+   Route Validation
+============================ */
+
+.result-wide{
+    width:100%;
+    max-width:1400px;
+}
+
+.error-box{
+    margin:25px 0;
+    padding:18px;
+    border-radius:10px;
+    background:#4a1616;
+    color:#ffd6d6;
+    border:1px solid #b53d3d;
+    text-align:center;
+}
+
+.badge-success{
+    display:inline-block;
+    padding:4px 8px;
+    background:#1f8f4d;
+    border-radius:5px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+.badge-danger{
+    display:inline-block;
+    padding:4px 8px;
+    background:#c0392b;
+    border-radius:5px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+.badge-warning{
+    display:inline-block;
+    padding:4px 8px;
+    background:#d68910;
+    border-radius:5px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+.badge-secondary{
+    display:inline-block;
+    padding:4px 8px;
+    background:#555;
+    border-radius:5px;
+    color:white;
+    font-size:12px;
+}
+
+.text-success{
+    color:#38d26e;
+    font-weight:600;
+}
+
+.text-warning{
+    color:#ffc857;
+    font-weight:600;
+}
+
+.text-danger{
+    color:#ff6b6b;
+    font-weight:600;
+}
+
+.result-table a{
+    color:coral;
+    text-decoration:none;
+    font-weight:500;
+    transition:color .2s ease;
+}
+
+.result-table a:hover{
+    color:#ff9b72;
+    text-decoration:underline;
+}
+
+.success-cell{
+    text-align:center;
+    color:#3ddc84;
+    font-weight:600;
+}

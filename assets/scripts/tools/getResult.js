@@ -95,20 +95,30 @@ function renderResult(response,paramId){
         resultView.className = "result-div";
         resultView.style.cssText = "margin-top:20px; padding:0 20px;border:1px solid white";
         resultView.innerHTML = `
-            <table style="border-collapse:collapse; width:50%; margin:0 auto;">
-                <thead>
-                    <tr>
-                        <th style="border:1px solid white; padding:8px;">IP</th>
-                        <th style="border:1px solid white; padding:8px;">Domain</th>
-                        <th style="border:1px solid white; padding:8px;">Removal</th>
-                    </tr>
-                </thead>
-                <tbody>${rows}</tbody>
-            </table>
-            <button id=clr-results style="margin-top:20px; border:1px solid white">Clear Results</button>
+                <div class="result-card">
+                    <h2 class="result-title">
+                        IP Reputation Results
+                    </h2>
+                    <div class="table-wrapper">
+                        <table class="result-table">
+                            ...
+                        </table>
+                    </div>
+
+                    <div class="result-clear">
+                        <button
+                            id="clr-results"
+                            class="secondary-btn">
+
+                            Clear Results
+                        </button>
+                    </div>
+                </div>
         `;
 
-        document.querySelector("main").appendChild(resultView);
+        const resultSection = document.getElementById("result-section");
+        resultSection.innerHTML = "";
+        resultSection.appendChild(resultView);
 
         document.querySelector("#clr-results").addEventListener("click",()=>{
             document.querySelector(".result-div").remove();
@@ -154,7 +164,9 @@ function renderResult(response,paramId){
             <button id=clr-results style="margin-top:20px; border:1px solid white">Clear Results</button>
         `;
 
-        document.querySelector("main").appendChild(resultView);
+        const resultSection = document.getElementById("result-section");
+        resultSection.innerHTML = "";
+        resultSection.appendChild(resultView);
 
         document.querySelector("#clr-results").addEventListener("click",()=>{
             document.querySelector(".result-div").remove();
@@ -174,7 +186,9 @@ function renderResult(response,paramId){
             resultView.className = "result-div";
             resultView.style.cssText = "margin-top:20px; padding:0 20px; text-align:center; color:red;";
             resultView.textContent = `Error: ${data.error}`;
-            document.querySelector("main").appendChild(resultView);
+            const resultSection = document.getElementById("result-section");
+            resultSection.innerHTML = "";
+            resultSection.appendChild(resultView);
             return;
         }
 
@@ -247,7 +261,9 @@ function renderResult(response,paramId){
             </div>
         `;
 
-        document.querySelector("main").appendChild(resultView);
+        const resultSection = document.getElementById("result-section");
+        resultSection.innerHTML = "";
+        resultSection.appendChild(resultView);
 
         document.querySelector("#clr-results").addEventListener("click", () => {
             document.querySelector(".result-div").remove();
@@ -255,58 +271,103 @@ function renderResult(response,paramId){
     }
 }
 
-/* ========================================================================== */
+async function getResult(paramId) {
 
-async function repCheck(value) {
-    
-    const [ip, cidr] = value.split('/');
+    const input = document.getElementById(paramId);
+    const value = input.value.trim();
 
-    if(Number(cidr) < 24){
-       throw new Error("Please enter a /24 or a smaller block");
-       return;
+    if (!value) {
+        alert("Please enter an input.");
+        input.focus();
+        return;
     }
 
-    const response = await fetch(
-        `http://localhost:5000/blacklistcheck?ip=${encodeURIComponent(value)}`
-        // `/blacklistcheck?ip=${encodeURIComponent(value)}`
-    );
+    const [ip] = value.split("/");
+    const octets = ip.split(".");
 
-
-    if (!response.ok) {
-        throw new Error("Backend Error");
+    if (
+        octets.length !== 4 ||
+        octets.some(o => isNaN(o) || Number(o) < 0 || Number(o) > 255)
+    ) {
+        alert("Please enter a valid IPv4 address.");
+        input.focus();
+        return;
     }
 
-    return await response.json();
+    const btn = document.getElementById("query-btn");
+
+    btn.disabled = true;
+    btn.innerHTML = "⏳ Fetching...";
+
+    const spinner = document.createElement("div");
+    spinner.className = "spinner-overlay";
+    spinner.innerHTML = `<div class="spinner"></div>`;
+
+    document.body.appendChild(spinner);
+
+    try {
+        const response = await getCallFunction(paramId, value);
+        console.log(response);
+        renderResult(response, paramId);
+    }
+    catch (err) {
+        console.error(err);
+        alert(err.message || "Unexpected error occurred.");
+    }
+    finally {
+        spinner.remove();
+        btn.disabled = false;
+        btn.innerHTML = "Query";
+
+    }
+
 }
 
-/* ========================================================================== */
-async function geoCheck(value) {
 
-    const response = await fetch(
-        `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
-        // `/geocheck?ip=${encodeURIComponent(value)}`
-    );
+function getCallFunction(paramId, value) {
 
+    switch (paramId) {
 
-    if (!response.ok) {
-        throw new Error("Backend Error");
+        case "rep":
+            return repCheck(value);
+
+        case "geo":
+            return geoCheck(value);
+
+        case "route":
+            return routeCheck(value);
+
+        default:
+            throw new Error("Invalid Tool");
+
     }
 
-    return await response.json();
 }
 
-/* ========================================================================== */
-async function routeCheck(value) {
 
-    const response = await fetch(
-        `http://localhost:5000/routecheck?subnet=${encodeURIComponent(value)}`
-        // `/routecheck?subnet=${encodeURIComponent(value)}`
-    );
+function renderResult(response, paramId) {
 
+    switch (paramId) {
 
-    if (!response.ok) {
-        throw new Error("Backend Error");
+        case "rep":
+            renderRep(response);
+            break;
+
+        case "geo":
+            renderGeo(response);
+            break;
+
+        case "route":
+            renderRoute(response);
+            break;
+
     }
 
-    return await response.json();
+}
+
+
+function showResult(resultView) {
+    const resultSection = document.getElementById("result-section");
+    resultSection.innerHTML = "";
+    resultSection.appendChild(resultView);
 }

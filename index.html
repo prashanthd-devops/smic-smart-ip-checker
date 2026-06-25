@@ -1,94 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart IP Checker</title>
-  <link rel="stylesheet" href="./styles/RepGeoRoute.css">
-  <link rel="stylesheet" href="./styles/IPReport.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart IP Checker</title>
+
+    <!-- Styles -->
+     <link rel="stylesheet" href="./styles/common.css">
+    <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="./styles/tools.css">
+    <link rel="stylesheet" href="./styles/rpki.css">
+    <link rel="stylesheet" href="./styles/swip.css">
+    <link rel="stylesheet" href="./styles/report.css">
 </head>
+
 <body>
+    <!-- ===========================================
+                    HEADER
+    ============================================ -->
     <header>
         <h1>Smart IP Checker</h1>
+        <p class="subtitle">
+            Network Operations & Automation Portal
+        </p>
     </header>
-    <div class="body-div">
-      <main>
-        <section class="optionview-content">
-          <div style="display: flex; gap:10px;">
-            <div class="card rep" onclick="pageView('rep')">
-              <h3>IP Reputation</h3>
-              <p>
-                Verify whether an IP address is listed on major DNS-based
-                blacklists such as Barracuda, SpamCop,
-                UCEPROTECT, and other industry-recognized reputation services.
-              </p>
-              <div class="card-btn">
-                <b style="color:coral">Click to Explore</b>
-              </div>
-            </div>
-            <div class="card geo" onclick="pageView('geo')">
-              <h3>IP Geolocation</h3>
-              <p>
-                Country, ASN, and Organization lookup from MaxMind, IPinfo, IP2Location, and IPHub.
-              </p>
-              <div class="card-btn route">
-                <b style="color:coral">Click to Explore</b>
-              </div>
-            </div>
-          </div>
 
-          <div style="display: flex;gap:10px;">
-            <div class="card route" onclick="pageView('route')">
-                <h3>IP Validation</h3>
-                <p>
-                    Prefix and ASN validation using Internet Routing Registry (IRR) explorer.
-                </p>
-                <div class="card-btn">
-                  <b style="color:coral">Click to Explore</b>
-                </div>
-            </div>
+    <!-- ===========================================
+                    MAIN
+    ============================================ -->
+    <main>
+        <section class="hero">
+            <h2>Welcome</h2>
+            <p>
+                Perform IP reputation lookups, routing validation,
+                geolocation, RPKI management, SWIP automation,
+                and reporting from a single dashboard.
+            </p>
+        </section>
 
-            <div class="card ip-report" onclick="ipPageView()">
-                <h3>IP report</h3>
-                <p>
-                    Upload an UB IP inventory file to generate a summarized report of available IPv4 subnets and allocation groups.
-                </p>
-                <div class="card-btn">
-                  <b style="color:coral">Click to Explore</b>
-                </div>
-            </div>
-          </div>
+        <section class="dashboard">
 
-          <div style="display: flex;gap:10px;">
-            <div class="card rpki-ops" onclick="opsRpki()">
-                <h3>RPKI Operations</h3>
-                <p>
-                    Create and delete RPKI Route Origin Authorizations (ROAs) via the ARIN REST API.
-                </p>
-                <div class="card-btn">
-                  <b style="color:coral">Click to Explore</b>
+            <!-- Reputation -->
+            <article class="card" onclick="pageView('rep')">
+                <div class="card-header">
+                    <div class="card-icon">🌐</div>
+                    <span class="card-tag">Security</span>
                 </div>
-            </div>
+                <div class="card-body">
+                    <h3>IP Reputation</h3>
+                    <p>
+                        Verify IP addresses against industry-recognized
+                        blacklist providers.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
 
-            <div class="card swip-ops" onclick="opsSwip()">
-                <h3>SWIP Operations</h3>
-                <p>
-                    Manage SWIP reassignments and customer IP registrations via the ARIN WHOIS database.
-                </p>
-                <div class="card-btn">
-                  <b style="color:coral">Click to Explore</b>
+            <!-- Geolocation -->
+            <article class="card" onclick="pageView('geo')">
+                <div class="card-header">
+                    <div class="card-icon">📍</div>
+                    <span class="card-tag">Lookup</span>
                 </div>
-            </div>
-          </div>
-      </section>
-      </main>
-    </div>
-  <footer>American Cloud - Open Colo</footer>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="./scripts/RepGeoRouteRpkiSwip/getResult.js"></script>
-  <script src="./scripts/RepGeoRouteRpkiSwip/pageView.js"></script>
-  <script src="./scripts/RepGeoRouteRpkiSwip/setRPKI.js"></script>
-  <script src="./scripts/IPReport/IpPageView.js"></script>
-  <script src="./scripts/IPReport/IpReport.js"></script>
+                <div class="card-body">
+                    <h3>IP Geolocation</h3>
+                    <p>
+                        Retrieve Country, ASN, ISP and Organization
+                        information.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
+
+            <!-- Route -->
+            <article class="card" onclick="pageView('route')">
+                <div class="card-header">
+                    <div class="card-icon">🛰️</div>
+                    <span class="card-tag">Validation</span>
+                </div>
+                <div class="card-body">
+                    <h3>IP Validation</h3>
+                    <p>
+                        Validate prefixes and ASN information using
+                        Internet Routing Registry (IRR).
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
+
+            <!-- Report -->
+            <article class="card" onclick="ipPageView()">
+                <div class="card-header">
+                    <div class="card-icon">📄</div>
+                    <span class="card-tag">Reporting</span>
+                </div>
+                <div class="card-body">
+                    <h3>IP Report</h3>
+                    <p>
+                        Upload inventory spreadsheets and generate
+                        summarized IPv4 reports.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
+
+            <!-- RPKI -->
+            <article class="card" onclick="opsRpki()">
+                <div class="card-header">
+                    <div class="card-icon">🔐</div>
+                    <span class="card-tag">Automation</span>
+                </div>
+                <div class="card-body">
+                    <h3>RPKI Operations</h3>
+                    <p>
+                        Create and delete Route Origin Authorizations
+                        using the ARIN REST API.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
+
+            <!-- SWIP -->
+            <article class="card" onclick="opsSwip()">
+                <div class="card-header">
+                    <div class="card-icon">🔄</div>
+                    <span class="card-tag">Automation</span>
+                </div>
+                <div class="card-body">
+                    <h3>SWIP Operations</h3>
+                    <p>
+                        Create customer reassignments, update SWIP
+                        records and perform bulk operations.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    Explore →
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- ===========================================
+                    FOOTER
+    ============================================ -->
+
+    <footer>
+
+        <div>American Cloud • OpenColo</div>
+
+        <small>Smart IP Checker v2.0</small>
+
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <!-- Tool APIs -->
+    <script src="./assets/scripts/tools/reputation.js"></script>
+    <script src="./assets/scripts/tools/geo.js"></script>
+    <script src="./assets/scripts/tools/route.js"></script>
+
+    <!-- Tool UI -->
+    <script src="./assets/scripts/tools/toolPage.js"></script>
+    <script src="./assets/scripts/tools/getResult.js"></script>
+    <script src="./assets/scripts/tools/resultRenderer.js"></script>
+
+    <!-- Report -->
+    <script src="./assets/scripts/report/ipReport.js"></script>
+    <script src="./assets/scripts/report/ipReportPage.js"></script>
+
+    <!-- RPKI -->
+     <script src="./assets/scripts/rpki/rpkiHelper.js"></script>
+    <script src="./assets/scripts/rpki/rpkiApi.js"></script>
+    <script src="./assets/scripts/rpki/rpkiPage.js"></script>
+
+    <!-- SWIP -->
+    <script src="./assets/scripts/swip/swipApi.js"></script>
+    <script src="./assets/scripts/swip/swipPage.js"></script>
+    <script src="./assets/scripts/swip/swipHelper.js"></script>
 </body>
 </html>

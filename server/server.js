@@ -7,6 +7,8 @@ import ipConvertion from "./Controllers/bController.js";
 import geoFeeds from "./Controllers/gController.js";
 import routeValidate from "./Controllers/rController.js";
 import { getRoas, rpkiDelete, rpkiCreate } from './Controllers/rpkiController.js';
+import { detailedSWIPUpdate } from "./Controllers/sDController.js";
+import { simpleSWIPUpdate } from "./Controllers/sSController.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -124,6 +126,31 @@ app.get('/rpkidelete', async (req, res) => {
     }
 });
 
+app.post("/swip/detailed", async (req, res) => {
+    try {
+        await detailedSWIPUpdate(req, res);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        });
+    }
+});
+
+app.post("/swip/simple", async (req, res) => {
+    try {
+        await simpleSWIPUpdate(req, res);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        });
+    }
+});
 
 app.listen(PORT,()=>{
   console.log(`server is running on http://localhost:${PORT}`);
