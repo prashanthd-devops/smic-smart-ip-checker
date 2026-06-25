@@ -6,7 +6,6 @@ COPY server/package*.json ./
 RUN npm ci --omit=dev
 
 COPY server/ ./server/
-COPY scripts/ ./scripts/
 COPY styles/ ./styles/
 COPY assets/ ./assets/
 COPY index.html ./
