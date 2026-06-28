@@ -87,6 +87,15 @@ function renderSimpleSwip() {
                         Submit
                     </button>
                 </div>
+                <div class="help-section">
+                    <h4>How to use</h4>
+                    <ul>
+                        <li>Enter one IPv4 prefix per line e.g. <code>192.168.0.0/24</code></li>
+                        <li>Select the parent Organization (EGNL-1 or SDL-166)</li>
+                        <li>Click <strong>Submit</strong> — if a network already exists you will be asked to confirm overwrite</li>
+                        <li>Use Simple SWIP when you only need to register the subnet without full org details</li>
+                    </ul>
+                </div>
                 <div id="swip-results"></div>
             </div>
         </section>
@@ -142,6 +151,15 @@ function renderDetailedSwip() {
                     <button class="primary-btn" id="detailed-submit">
                         Submit
                     </button>
+                </div>
+                <div class="help-section">
+                    <h4>How to use</h4>
+                    <ul>
+                        <li>Enter one IPv4 prefix per line e.g. <code>192.168.0.0/24</code></li>
+                        <li>Enter the customer Organization Handle e.g. <code>EGNL-1</code></li>
+                        <li>The handle will be validated against ARIN before submission</li>
+                        <li>Use Detailed SWIP when the customer already has an ARIN Org handle</li>
+                    </ul>
                 </div>
                 <div id="swip-results"></div>
             </div>

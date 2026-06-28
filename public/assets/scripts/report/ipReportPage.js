@@ -10,6 +10,14 @@ function ipPageView() {
             <p class="report-description">
                 Upload an IP inventory spreadsheet to generate a summarized report.
             </p>
+            <div class="help-section">
+                <h4>How to use</h4>
+                <ul>
+                    <li>Upload an Excel file (<code>.xlsx</code> or <code>.xls</code>) containing UB-All IP Group inventory</li>
+                    <li>Click <strong>Generate Report</strong> to process and filter the data</li>
+                    <li>Once results appear, use <strong>Download Report</strong> to export as Excel</li>
+                </ul>
+            </div>
             <div class="report-upload">
                 <input
                     id="fileInput"

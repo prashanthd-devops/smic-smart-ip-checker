@@ -111,49 +111,52 @@ router.get("/geocheck", async (req, res) => {
 /*----------------------------------
 Route Validation
 ----------------------------------*/
-router.get("/routecheck", async (req, res) => {
+router.post("/routecheck/bulk", async (req, res) => {
 
     const start = Date.now();
-    const subnet = req.query.subnet;
+    const { subnets } = req.body;
+
+    if (!Array.isArray(subnets) || subnets.length === 0) {
+        return res.status(400).json({ message: "No subnets provided" });
+    }
 
     try {
-        const routeResult = await routeValidate(subnet);
+        const results = await Promise.allSettled(
+            subnets.map(subnet => routeValidate(subnet))
+        );
+
+        const result = results.map((r, i) =>
+            r.status === "fulfilled"
+                ? r.value
+                : [{ prefix: subnets[i], error: r.reason?.message }]
+        ).flat();
+
         logActivity({
             user: req.session.user.username,
             tool: "Route Validation",
             action: "Lookup",
-            type: "Single",
-            input: [subnet],
+            type: "Bulk",
+            input: subnets,
             status: "Completed",
-            result: {
-                success: 1,
-                failed: 0
-            },
+            result: { success: subnets.length, failed: 0 },
             duration: Date.now() - start
         });
-        res.json({
-            message: "success",
-            result: routeResult
-        });
+
+        res.json({ message: "success", result });
 
     } catch (err) {
         logActivity({
             user: req.session.user?.username || "Unknown",
             tool: "Route Validation",
             action: "Lookup",
-            type: "Single",
-            input: [subnet],
+            type: "Bulk",
+            input: subnets,
             status: "Failed",
-            result: {
-                success: 0,
-                failed: 1
-            },
+            result: { success: 0, failed: subnets.length },
             error: err.message,
             duration: Date.now() - start
         });
-        res.status(500).json({
-            message: "Backend Error"
-        });
+        res.status(500).json({ message: "Backend Error" });
     }
 });
 

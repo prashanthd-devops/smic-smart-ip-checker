@@ -12,13 +12,18 @@ async function getResult(paramId) {
     const [ip] = value.split("/");
     const octets = ip.split(".");
 
-    if (
-        octets.length !== 4 ||
-        octets.some(o => isNaN(o) || Number(o) < 0 || Number(o) > 255)
-    ) {
-        alert("Please enter a valid IPv4 address.");
-        input.focus();
-        return;
+    if (paramId === "route") {
+        const lines = value.split("\n").map(l => l.trim()).filter(Boolean);
+        if (!validateInput(lines)) return;
+    } 
+    else {
+        const [ip] = value.split("/");
+        const octets = ip.split(".");
+        if(octets.length !== 4 || octets.some(o => isNaN(o) || Number(o) < 0 || Number(o) > 255)) {
+            alert("Please enter a valid IPv4 address.");
+            input.focus();
+            return;
+        }
     }
 
     const btn = document.getElementById("query-btn");
@@ -77,22 +82,20 @@ function getCallFunction(paramId, value) {
 
 function renderResult(response, paramId) {
 
-    switch (paramId) {
+    const help = document.getElementById("help-section");
+    if (help) help.style.display = "none";
 
+    switch (paramId) {
         case "rep":
             renderRep(response);
             break;
-
         case "geo":
             renderGeo(response);
             break;
-
         case "route":
             renderRoute(response);
             break;
-
     }
-
 }
 
 

@@ -11,3 +11,6 @@ PreviousCodes/
 
 #userlist
 server/users.js
+
+#logs
+server/logs

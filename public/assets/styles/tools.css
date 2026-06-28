@@ -50,6 +50,34 @@
 }
 
 /* =====================================
+   Helper - Instructions
+===================================== */
+.help-section {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.help-section h4 {
+    margin-bottom: 0.5rem;
+}
+
+.help-section ul {
+    padding-left: 1.2rem;
+    line-height: 1.8;
+}
+
+.help-section code {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+/* =====================================
    INPUTS
 ===================================== */
 .ip-input{
