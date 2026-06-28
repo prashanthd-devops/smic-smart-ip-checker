@@ -10,4 +10,4 @@ server/.env
 PreviousCodes/
 
 #userlist
-server/user.js
+server/users.js
