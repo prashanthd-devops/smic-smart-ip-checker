@@ -109,7 +109,45 @@ router.get("/geocheck", async (req, res) => {
 });
 
 /*----------------------------------
-Route Validation
+Route Validation — Single
+----------------------------------*/
+router.get("/routecheck", async (req, res) => {
+
+    const start = Date.now();
+    const subnet = req.query.subnet;
+
+    try {
+        const routeResult = await routeValidate(subnet);
+        logActivity({
+            user: req.session.user.username,
+            tool: "Route Validation",
+            action: "Lookup",
+            type: "Single",
+            input: [subnet],
+            status: "Completed",
+            result: { success: 1, failed: 0 },
+            duration: Date.now() - start
+        });
+        res.json({ message: "success", result: routeResult });
+
+    } catch (err) {
+        logActivity({
+            user: req.session.user?.username || "Unknown",
+            tool: "Route Validation",
+            action: "Lookup",
+            type: "Single",
+            input: [subnet],
+            status: "Failed",
+            result: { success: 0, failed: 1 },
+            error: err.message,
+            duration: Date.now() - start
+        });
+        res.status(500).json({ message: "Backend Error" });
+    }
+});
+
+/*----------------------------------
+Route Validation — Bulk
 ----------------------------------*/
 router.post("/routecheck/bulk", async (req, res) => {
 
