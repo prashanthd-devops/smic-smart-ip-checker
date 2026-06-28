@@ -92,7 +92,7 @@ function renderRpkiCreate() {
                     <input
                         id="rpkiCreate-asn"
                         autocomplete="off"
-                        placeholder="AS399077">
+                        placeholder="399077">
                 </div>
                 <div class="form-group">
                     <label for="rpkiCreate-org">
@@ -137,9 +137,9 @@ function renderRpkiCreate() {
                     <h4>How to use</h4>
                     <ul>
                         <li>Enter one IPv4 prefix per line e.g. <code>203.0.113.0/24</code></li>
-                        <li>Enter the origin ASN e.g. <code>AS399077</code></li>
+                        <li>Enter the origin ASN e.g. <code>399077</code></li>
                         <li>Select the Organization that owns the prefixes</li>
-                        <li>Give the ROA a name e.g. <code>Production ROA</code></li>
+                        <li>Give the ROA a name e.g. <code>YYYY-MM-DD-OrgName-ASN-1x24</code></li>
                         <li>Click <strong>Create ROAs</strong> — one ROA will be created per prefix</li>
                     </ul>
                 </div>
@@ -193,7 +193,7 @@ function renderRpkiDelete() {
                     <input
                         id="rpkiDelete-asn"
                         autocomplete="off"
-                        placeholder="AS399077">
+                        placeholder="399077">
                 </div>
                 <div class="form-group">
                     <label for="rpkiDelete-org">
@@ -228,7 +228,7 @@ function renderRpkiDelete() {
                     <h4>How to use</h4>
                     <ul>
                         <li>Enter one IPv4 prefix per line e.g. <code>203.0.113.0/24</code></li>
-                        <li>Enter the ASN associated with the ROA e.g. <code>AS399077</code></li>
+                        <li>Enter the ASN associated with the ROA e.g. <code>399077</code></li>
                         <li>Select the Organization that owns the prefixes</li>
                         <li>Click <strong>Delete ROAs</strong> — matching ROAs will be removed from ARIN</li>
                         <li>Only ROAs that exactly match the prefix + ASN + Org combination will be deleted</li>
