@@ -17,7 +17,7 @@ function opsRpki() {
 
 function renderRpkiHome() {
 
-    document.querySelector("main").innerHTML = `
+    document.querySelector(".main").innerHTML = `
         <section class="tool-page">
             <div class="tool-card">
                 <h1>RPKI Operations</h1>
@@ -83,8 +83,7 @@ function renderRpkiCreate() {
                         id="rpkiCreate-input"
                         rows="8"
                         spellcheck="false"
-                        placeholder="203.0.113.0/24&#10;198.51.100.0/24">
-                    </textarea>
+                        placeholder="203.0.113.0/24&#10;198.51.100.0/24"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="rpkiCreate-asn">
@@ -144,21 +143,14 @@ function renderRpkiCreate() {
         .addEventListener("click", () => {
 
             const formData = {
-
                 input: document.getElementById("rpkiCreate-input").value,
-
                 asn: document.getElementById("rpkiCreate-asn").value,
-
                 roa: document.getElementById("rpkiCreate-roa").value,
-
                 org: document.getElementById("rpkiCreate-org").value
-
             };
 
             setRPKI(formData);
-
         });
-
 }
 
 // ==========================================
@@ -182,8 +174,7 @@ function renderRpkiDelete() {
                         id="rpkiDelete-input"
                         rows="8"
                         spellcheck="false"
-                        placeholder="203.0.113.0/24&#10;198.51.100.0/24">
-                    </textarea>
+                        placeholder="203.0.113.0/24&#10;198.51.100.0/24"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="rpkiDelete-asn">
@@ -233,17 +224,10 @@ function renderRpkiDelete() {
         .addEventListener("click", () => {
 
             const formData = {
-
                 input: document.getElementById("rpkiDelete-input").value,
-
                 asn: document.getElementById("rpkiDelete-asn").value,
-
                 org: document.getElementById("rpkiDelete-org").value
-
             };
-
             remRPKI(formData);
-
         });
-
 }

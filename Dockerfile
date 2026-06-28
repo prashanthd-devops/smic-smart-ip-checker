@@ -6,11 +6,10 @@ COPY server/package*.json ./
 RUN npm ci --omit=dev
 
 COPY server/ ./server/
-COPY styles/ ./styles/
-COPY assets/ ./assets/
-COPY index.html ./
+COPY public/ ./public/
+COPY protected/ ./protected/
 
-EXPOSE 3000
+EXPOSE 5000
 
 ENV NODE_ENV=production
 

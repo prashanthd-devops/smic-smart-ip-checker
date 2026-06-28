@@ -8,29 +8,32 @@
     <title>Smart IP Checker</title>
 
     <!-- Styles -->
-     <link rel="stylesheet" href="./styles/common.css">
-    <link rel="stylesheet" href="./styles/dashboard.css">
-    <link rel="stylesheet" href="./styles/tools.css">
-    <link rel="stylesheet" href="./styles/rpki.css">
-    <link rel="stylesheet" href="./styles/swip.css">
-    <link rel="stylesheet" href="./styles/report.css">
+    <link rel="stylesheet" href="/assets/styles/common.css">
+    <link rel="stylesheet" href="/assets/styles/dashboard.css">
+    <link rel="stylesheet" href="/assets/styles/tools.css">
+    <link rel="stylesheet" href="/assets/styles/rpki.css">
+    <link rel="stylesheet" href="/assets/styles/swip.css">
+    <link rel="stylesheet" href="/assets/styles/report.css">
 </head>
 
 <body>
-    <!-- ===========================================
-                    HEADER
-    ============================================ -->
     <header>
-        <h1>Smart IP Checker</h1>
-        <p class="subtitle">
-            Network Operations & Automation Portal
-        </p>
+        <div class="header-container">
+            <div class="header-left">
+                <h1>Smart IP Checker</h1>
+                <p class="subtitle">
+                    Network Operations & Automation Portal
+                </p>
+            </div>
+            <div class="header-right">
+                <button class="logout-btn" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+        </div>
     </header>
 
-    <!-- ===========================================
-                    MAIN
-    ============================================ -->
-    <main>
+    <main class="main">
         <section class="hero">
             <h2 style="text-align: center">Welcome</h2>
             <p>
@@ -153,42 +156,34 @@
         </section>
     </main>
 
-    <!-- ===========================================
-                    FOOTER
-    ============================================ -->
-
     <footer>
-
         <div>American Cloud • OpenColo</div>
-
         <small>Smart IP Checker v2.0</small>
-
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
-    <!-- Tool APIs -->
-    <script src="./assets/scripts/tools/reputation.js"></script>
-    <script src="./assets/scripts/tools/geo.js"></script>
-    <script src="./assets/scripts/tools/route.js"></script>
+    <script src="/assets/scripts/state/stateManager.js"></script>
+    <script src="/assets/scripts/tools/reputation.js"></script>
+    <script src="/assets/scripts/tools/geo.js"></script>
+    <script src="/assets/scripts/tools/route.js"></script>
 
-    <!-- Tool UI -->
-    <script src="./assets/scripts/tools/toolPage.js"></script>
-    <script src="./assets/scripts/tools/getResult.js"></script>
-    <script src="./assets/scripts/tools/resultRenderer.js"></script>
+    <script src="/assets/scripts/tools/toolPage.js"></script>
+    <script src="/assets/scripts/tools/getResult.js"></script>
+    <script src="/assets/scripts/tools/resultRenderer.js"></script>
 
-    <!-- Report -->
-    <script src="./assets/scripts/report/ipReport.js"></script>
-    <script src="./assets/scripts/report/ipReportPage.js"></script>
+    <script src="/assets/scripts/report/ipReport.js"></script>
+    <script src="/assets/scripts/report/ipReportPage.js"></script>
 
-    <!-- RPKI -->
-     <script src="./assets/scripts/rpki/rpkiHelper.js"></script>
-    <script src="./assets/scripts/rpki/rpkiApi.js"></script>
-    <script src="./assets/scripts/rpki/rpkiPage.js"></script>
+    <script src="/assets/scripts/rpki/rpkiHelper.js"></script>
+    <script src="/assets/scripts/rpki/rpkiApi.js"></script>
+    <script src="/assets/scripts/rpki/rpkiPage.js"></script>
 
-    <!-- SWIP -->
-    <script src="./assets/scripts/swip/swipApi.js"></script>
-    <script src="./assets/scripts/swip/swipPage.js"></script>
-    <script src="./assets/scripts/swip/swipHelper.js"></script>
+    <script src="/assets/scripts/swip/swipApi.js"></script>
+    <script src="/assets/scripts/swip/swipPage.js"></script>
+    <script src="/assets/scripts/swip/swipHelper.js"></script>
+
+    <script src="/assets/scripts/logout/logout.js"></script>
+    <script src="/assets/scripts/state/app.js"></script>
 </body>
 </html>

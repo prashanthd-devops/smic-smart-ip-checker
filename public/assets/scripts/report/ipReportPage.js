@@ -3,7 +3,7 @@ function ipPageView() {
     document.querySelector("header").style.display = "none";
     document.querySelector("footer").style.display = "none";
 
-    document.querySelector("main").innerHTML = `
+    document.querySelector(".main").innerHTML = `
     <section class="report-page">
         <div class="report-card">
             <h1>IP Report</h1>

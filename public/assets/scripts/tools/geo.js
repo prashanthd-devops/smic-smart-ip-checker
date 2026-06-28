@@ -4,7 +4,7 @@
 
 async function geoCheck(value) {
     const response = await fetch(
-        `/geocheck?ip=${encodeURIComponent(value)}`
+        `http://localhost:5000/geocheck?ip=${encodeURIComponent(value)}`
     );
 
     if (!response.ok) {

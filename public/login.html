@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIC-Login</title>
+    <link rel="stylesheet" href="./assets/styles/login.css">
+    <link rel="stylesheet" href="./assets/styles/common.css">
+</head>
+<body>
+        <main class="signin-main">
+        <h2>Welcome</h2>
+
+        <form id="loginForm" class="signin-form">
+            <label for="name">Username</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="signin-input"
+                placeholder="Enter your username"
+                required
+            >
+
+            <label for="pwd">Password</label>
+            <input
+                type="password"
+                id="pwd"
+                name="pwd"
+                class="signin-input"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit" class="signin-btn">Sign In</button>
+            <p>Use username:admin && pwd:admin123</p>
+        </form>
+    </main>
+    <script src="./assets/scripts/login/login.js"></script>
+</body>
+</html>

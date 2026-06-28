@@ -1,5 +1,9 @@
 function pageView(paramId) {
 
+    updateState("dashboard", {
+        activePage: paramId
+    });
+
     document.querySelector("header").style.display = "none";
     document.querySelector("footer").style.display = "none";
 
@@ -30,7 +34,7 @@ function pageView(paramId) {
             return;
     }
 
-    document.querySelector("main").innerHTML = `
+    document.querySelector(".main").innerHTML = `
         <section class="tool-page">
             <div class="tool-card">
                 <h1>${currPage}</h1>
@@ -73,20 +77,44 @@ function pageView(paramId) {
             getResult(paramId);
         });
 
+    document.getElementById(paramId).addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            getResult(paramId);
+        }
+    });
+
     document
         .getElementById("back-btn")
         .addEventListener("click", () => {
+            updateState("dashboard", {
+                activePage: null
+            });
+
             location.reload();
         });
 
     document
-        .getElementById("clear-btn")
-        .addEventListener("click", () => {
+    .getElementById("clear-btn")
+    .addEventListener("click", () => {
 
-            document.getElementById(paramId).value = "";
+        document.getElementById(paramId).value = "";
+        document.getElementById("result-section").innerHTML = "";
 
-            document.getElementById("result-section").innerHTML = "";
-
+        updateState(paramId, {
+            input: "",
+            result: null
         });
+
+    });
+
+    const state = getState();
+    if (state[paramId]) {
+        if (state[paramId].input) {
+            document.getElementById(paramId).value = state[paramId].input;
+        }
+        if (state[paramId].result) {
+            renderResult(state[paramId].result, paramId);
+        }
+    }
 
 }

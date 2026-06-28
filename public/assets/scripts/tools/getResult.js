@@ -33,9 +33,12 @@ async function getResult(paramId) {
     document.body.appendChild(spinner);
 
     try {
-        const response = await getCallFunction(paramId, value);
-        console.log(response);
-        renderResult(response, paramId);
+        const result = await getCallFunction(paramId, value);
+        updateState(paramId, {
+            input: document.getElementById(paramId).value,
+            result: result
+        });
+        renderResult(result, paramId);
     }
     catch (err) {
         console.error(err);

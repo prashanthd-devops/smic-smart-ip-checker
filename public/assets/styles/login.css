@@ -1,0 +1,55 @@
+
+    .signin-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .signin-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+        border: 2px solid white;
+        border-radius: 8px;
+    }
+
+    .signin-input {
+        width: 250px;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    .signin-btn{
+        align-self: center;
+        width:100px;
+        border-radius: 20px;
+        padding:10px;
+        transition: transform 0.3s ease;
+    }
+
+    .signin-btn:hover{
+        background:#170325;
+        color:white;
+        cursor:pointer;
+        transform: scale(1.1);
+    }
+
+    .header-container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    }
+
+    .logout-btn{
+        padding:8px 18px;
+        border:none;
+        border-radius:20px;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .logout-btn:hover{
+        background:#170325;
+        color:#fff;
+    }
