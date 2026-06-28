@@ -53,6 +53,7 @@ deploy:
         docker run -d --name smic --restart unless-stopped \
         --env-file /opt/smic/.env \
         -v /opt/smic/users.js:/app/server/users.js \
+        -v /opt/smic/logs:/app/logs \
         -p 5000:5000 $IMAGE_NAME:$TAG
       "
 
