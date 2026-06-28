@@ -8,3 +8,6 @@ server/.env
 
 # Backup folder
 PreviousCodes/
+
+#userlist
+server/user.js
