@@ -4,7 +4,14 @@ import path from "path";
 export function logActivity(activity) {
 
     const timestamp = new Date();
-    const operationId = `OP-${Date.now()}`;
+
+    // "2026-06-28T20-46-05-292"  (colons replaced with dashes for filename safety)
+    const readableTs = timestamp
+        .toISOString()
+        .replace(":", "-")   // after T
+        .replace(":", "-")   // minutes
+        .replace(".", "-");  // milliseconds
+    const operationId = `OP-${readableTs}`;
 
     // folder name like 2026-06-28
     const folderName = timestamp.toISOString().split("T")[0];
