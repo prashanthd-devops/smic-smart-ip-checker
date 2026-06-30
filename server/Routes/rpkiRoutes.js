@@ -76,7 +76,7 @@ router.get("/rpkicreate", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "RPKI",
             action: "Create",
             type: ips.length > 1 ? "Bulk" : "Single",
@@ -128,7 +128,7 @@ router.get("/rpkidelete", async (req, res) => {
         await rpkiDelete(handles, org);
 
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "RPKI",
             action: "Delete",
             type: ips.length > 1 ? "Bulk" : "Single",

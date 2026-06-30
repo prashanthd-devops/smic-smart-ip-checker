@@ -19,7 +19,7 @@ router.get("/blacklistcheck", async (req, res) => {
     try {
         const ipList = await ipConvertion(subnet);
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "IP Reputation",
             action: "Lookup",
             type: "Single",
@@ -40,7 +40,7 @@ router.get("/blacklistcheck", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user?.username || "Unknown",
+            user: req.session.user?.username ?? "Unknown",
             tool: "IP Reputation",
             action: "Lookup",
             type: "Single",
@@ -70,7 +70,7 @@ router.get("/geocheck", async (req, res) => {
     try {
         const geoResult = await geoFeeds(ip);
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "Geolocation",
             action: "Lookup",
             type: "Single",
@@ -89,7 +89,7 @@ router.get("/geocheck", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user?.username || "Unknown",
+            user: req.session?.user?.username ?? "unknown",
             tool: "Geolocation",
             action: "Lookup",
             type: "Single",
@@ -119,7 +119,7 @@ router.get("/routecheck", async (req, res) => {
     try {
         const routeResult = await routeValidate(subnet);
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "Route Validation",
             action: "Lookup",
             type: "Single",
@@ -132,7 +132,7 @@ router.get("/routecheck", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user?.username || "Unknown",
+            user: req.session?.user?.username ?? "unknown",
             tool: "Route Validation",
             action: "Lookup",
             type: "Single",
@@ -170,7 +170,7 @@ router.post("/routecheck/bulk", async (req, res) => {
         ).flat();
 
         logActivity({
-            user: req.session.user.username,
+            user: req.session?.user?.username ?? "unknown",
             tool: "Route Validation",
             action: "Lookup",
             type: "Bulk",
@@ -184,7 +184,7 @@ router.post("/routecheck/bulk", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user?.username || "Unknown",
+            user: req.session?.user?.username ?? "unknown",
             tool: "Route Validation",
             action: "Lookup",
             type: "Bulk",
