@@ -120,7 +120,7 @@ function analyzeData(data) {
             client === TARGET_CLIENT_ID &&
             COMPANY_RE.test(company) &&
             group &&
-            prefix <= 24
+            prefix >= 19 && prefix <= 24
         ) {
             matchedRows.push({
                 ...row,
