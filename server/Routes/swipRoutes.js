@@ -3,8 +3,11 @@ import express from "express";
 import { detailedSWIPUpdate } from "../Controllers/sDController.js";
 import { simpleSWIPUpdate } from "../Controllers/sSController.js";
 import { logActivity } from "../Utils/logger.js";
+import { requireAuthApi } from "../Middleware/auth.js";
 
 const router = express.Router();
+
+router.use(requireAuthApi);
 
 /* ==========================================
    SIMPLE SWIP
@@ -16,7 +19,7 @@ router.post("/swip/simple", async (req, res) => {
     try {
         await simpleSWIPUpdate(req, res);
         logActivity({
-            user: req.session.user.username,
+            user: req.user.username,
             tool: "SWIP",
             action: "Simple SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -31,7 +34,7 @@ router.post("/swip/simple", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user.username,
+            user: req.user.username,
             tool: "SWIP",
             action: "Simple SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -63,7 +66,7 @@ router.post("/swip/detailed", async (req, res) => {
     try {
         await detailedSWIPUpdate(req, res);
         logActivity({
-            user: req.session.user.username,
+            user: req.user.username,
             tool: "SWIP",
             action: "Detailed SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -78,7 +81,7 @@ router.post("/swip/detailed", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user.username,
+            user: req.user.username,
             tool: "SWIP",
             action: "Detailed SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",

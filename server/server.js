@@ -1,8 +1,7 @@
 import "dotenv/config";
 
-import session from "express-session";
-import FileStoreFactory from "session-file-store";
 import express from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,18 +19,7 @@ const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
-
-const FileStore = FileStoreFactory(session);
-
-app.use(session({
-    store: new FileStore({ path: "./sessions" }),
-    secret: "smart-ip-checker",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 8
-    }
-}));
+app.use(cookieParser());
 
 /* ---------------- STATIC FRONTEND ---------------- */
 app.use(express.static(path.join(__dirname, "../public")));

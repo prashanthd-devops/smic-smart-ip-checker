@@ -3,11 +3,30 @@ import express from "express";
 import { logActivity } from "../Utils/logger.js";
 import {
     getRoas,
+    checkExistingRoas,
     rpkiCreate,
     rpkiDelete
 } from "../Controllers/rpkiController.js";
 
 const router = express.Router();
+
+/* ==========================================
+   CHECK FOR EXISTING ROAs
+========================================== */
+
+router.get("/rpkicheck", async (req, res) => {
+    const ips = req.query.ips.split(",");
+    const org = req.query.org;
+
+    if (!org) return res.status(400).json({ error: "Org handle is required" });
+
+    try {
+        const checks = await checkExistingRoas(ips, undefined, org);
+        res.json({ result: checks });
+    } catch (err) {
+        res.status(500).json({ error: "Backend Error" });
+    }
+});
 
 /* ==========================================
    CREATE ROA

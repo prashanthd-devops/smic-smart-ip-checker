@@ -107,11 +107,50 @@ export async function rpkiCreate(ips, asn, roa, orgHandle) {
         results.push({
             ip,
             success: !/<error[\s>]/i.test(text),
-            raw: text
+            raw: /<error[\s>]/i.test(text) ? parseArinError(text) : text
         });
 
         await sleep(2000);  // 2s between each creation request
     }
 
     return results;
+}
+
+function parseArinError(xml) {
+    const codeMatch = xml.match(/<code>(.*?)<\/code>/);
+    const code = codeMatch ? codeMatch[1] : null;
+
+    // Grab all <message> texts, ignore the generic boilerplate one
+    const messages = [...xml.matchAll(/<message>(.*?)<\/message>/gs)]
+        .map(m => m[1].trim())
+        .filter(msg => msg && !msg.startsWith("This method requires certain parameters"));
+
+    const friendlyMap = {
+        E_ROA_RESOURCE_OVERLAP: "A ROA already exists for this prefix under the same ASN.",
+        E_BAD_REQUEST: messages[0] || "Invalid request sent to ARIN.",
+    };
+
+    if (code && friendlyMap[code]) return friendlyMap[code];
+    if (messages.length) return messages[0];
+    return "Unknown error from ARIN.";
+}
+
+export async function checkExistingRoas(ips, asn, orgHandle) {
+    const roas = await getRoas(orgHandle);
+
+    return ips.map(ip => {
+        const [ipAddr, cidr] = ip.split('/');
+        const matches = roas.filter(r =>
+            r.startAddress === ipAddr &&
+            String(r.cidrLength) === String(cidr)
+        );
+        return {
+            prefix: ip,
+            conflicts: matches.map(m => ({
+                roaHandle: m.roaHandle,
+                asNumber: m.asNumber,
+                cidrLength: m.cidrLength
+            }))
+        };
+    });
 }
