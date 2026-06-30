@@ -14,45 +14,44 @@ const router = express.Router();
 ========================================== */
 
 router.get("/rpkicreate", async (req, res) => {
-
     const start = Date.now();
-
     const ips = req.query.ips.split(",");
     const asn = req.query.asn;
     const roa = req.query.roa;
     const org = req.query.org;
 
     if (!org) {
-        return res.status(400).json({
-            error: "Org handle is required"
-        });
+        return res.status(400).json({ error: "Org handle is required" });
     }
 
     try {
         const results = await rpkiCreate(ips, asn, roa, org);
-        logActivity({
-            user: req.session.user.username,
-            tool: "RPKI",
-            action: "Create",
-            type: ips.length > 1 ? "Bulk" : "Single",
-            input: ips,
-            asn,
-            roaLength: roa,
-            org,
-            status: "Completed",
-            result: {
-                success: results.filter(r => r.success).length,
-                failed: results.filter(r => !r.success).length
-            },
-            duration: Date.now() - start
-        });
+
+        try {
+            logActivity({
+                user: req.session?.user?.username ?? "unknown",
+                tool: "RPKI",
+                action: "Create",
+                type: ips.length > 1 ? "Bulk" : "Single",
+                input: ips,
+                asn,
+                roaLength: roa,
+                org,
+                status: "Completed",
+                result: {
+                    success: results.filter(r => r.success).length,
+                    failed: results.filter(r => !r.success).length
+                },
+                duration: Date.now() - start
+            });
+        } catch (logErr) {
+            console.error("Logging failed:", logErr);
+        }
 
         res.json({
             result: results.map(r => ({
                 subnet: r.ip,
-                message: r.success
-                    ? { success: true }
-                    : { error: r.raw }
+                message: r.success ? { success: true } : { error: r.raw }
             }))
         });
 

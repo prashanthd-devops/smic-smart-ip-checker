@@ -10,7 +10,7 @@ const router = express.Router();
    SIMPLE SWIP
 ========================================== */
 
-router.post("/simple", async (req, res) => {
+router.post("/swip/simple", async (req, res) => {
 
     const start = Date.now();
     try {
@@ -57,7 +57,7 @@ router.post("/simple", async (req, res) => {
    DETAILED SWIP
 ========================================== */
 
-router.post("/detailed", async (req, res) => {
+router.post("/swip/detailed", async (req, res) => {
     const start = Date.now();
 
     try {

@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import session from "express-session";
+import FileStoreFactory from "session-file-store";
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -20,7 +21,10 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+const FileStore = FileStoreFactory(session);
+
 app.use(session({
+    store: new FileStore({ path: "./sessions" }),
     secret: "smart-ip-checker",
     resave: false,
     saveUninitialized: false,

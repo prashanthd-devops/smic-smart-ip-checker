@@ -56,7 +56,7 @@ export async function rpkiDelete(roaHandles, orgHandle) {
     console.log('Delete response:', text);
 
     // Check if success or error
-    if (text.includes('<error>') || text.includes('Error')) {
+    if (/<error[\s>]/i.test(text)) {
         return { error: text };
     }
     return { success: true };
@@ -106,7 +106,7 @@ export async function rpkiCreate(ips, asn, roa, orgHandle) {
 
         results.push({
             ip,
-            success: !text.includes('<error>') && !text.includes('Error'),
+            success: !/<error[\s>]/i.test(text),
             raw: text
         });
 

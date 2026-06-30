@@ -7,6 +7,10 @@ async function setRPKI(values) {
         return alert("Please fill all fields and select an organization.");
     }
 
+    if (!/^[a-zA-Z0-9_\- ]+$/.test(values.roa)) {
+        return alert("ROA Name can only contain letters, numbers, spaces, hyphens, and underscores (no slashes or other symbols).");
+    }
+
     const ipArr = values.input
         .split("\n")
         .map(ip => ip.trim())
