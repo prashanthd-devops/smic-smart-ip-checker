@@ -139,8 +139,14 @@ function renderRpkiCreate() {
                         <li>Enter one IPv4 prefix per line e.g. <code>203.0.113.0/24</code></li>
                         <li>Enter the origin ASN e.g. <code>399077</code></li>
                         <li>Select the Organization that owns the prefixes</li>
-                        <li>Give the ROA a name e.g. <code>YYYY-MM-DD-OrgName-ASN-1x24</code></li>
+                        <li>Give the ROA a name e.g. <code>YYYY-MM-DD-OrgName-1x24-AS&lt;Number&gt;</code></li>
                         <li>Click <strong>Create ROAs</strong> — one ROA will be created per prefix</li>
+                        <code>Note:</code>
+                            <ul>
+                                <li>Existing ROAs are verified before creation.</li>
+                                <li>Use IPs from a single organization only.</li>
+                                <li>Selecting the wrong organization will prevent RPKI creation.</li>
+                            </ul>
                     </ul>
                 </div>
                 <div id="rpki-results"></div>
