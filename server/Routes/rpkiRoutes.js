@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import { logActivity } from "../Utils/logger.js";
-import { requireAuth } from "../Middleware/auth.js";
+import { requireAuthApi } from "../Middleware/auth.js";
 import {
     getRoas,
     checkExistingRoas,
@@ -11,7 +11,7 @@ import {
 
 const router = express.Router();
 
-router.use(requireAuth);
+router.use(requireAuthApi);
 
 /* ==========================================
    CHECK FOR EXISTING ROAs
@@ -51,7 +51,7 @@ router.get("/rpkicreate", async (req, res) => {
 
         try {
             logActivity({
-                user: req.session?.user?.username ?? "unknown",
+                user: req.user?.username ?? "unknown",
                 tool: "RPKI",
                 action: "Create",
                 type: ips.length > 1 ? "Bulk" : "Single",
@@ -78,46 +78,43 @@ router.get("/rpkicreate", async (req, res) => {
         });
 
     } catch (err) {
-        logActivity({
-            user: req.session?.user?.username ?? "unknown",
-            tool: "RPKI",
-            action: "Create",
-            type: ips.length > 1 ? "Bulk" : "Single",
-            input: ips,
-            asn,
-            roaLength: roa,
-            org,
-            status: "Failed",
-            result: {
-                success: 0,
-                failed: ips.length
-            },
-            error: err.message,
-            duration: Date.now() - start
-        });
-        res.status(500).json({
-            error: "Backend Error"
-        });
+        try {
+            logActivity({
+                user: req.user?.username ?? "unknown",
+                tool: "RPKI",
+                action: "Create",
+                type: ips.length > 1 ? "Bulk" : "Single",
+                input: ips,
+                asn,
+                roaLength: roa,
+                org,
+                status: "Failed",
+                result: {
+                    success: 0,
+                    failed: ips.length
+                },
+                error: err.message,
+                duration: Date.now() - start
+            });
+        } catch (logErr) {
+            console.error("Logging failed:", logErr);
+        }
+        res.status(500).json({ error: "Backend Error" });
     }
 });
-
 
 /* ==========================================
    DELETE ROA
 ========================================== */
 
 router.get("/rpkidelete", async (req, res) => {
-
     const start = Date.now();
-
     const ips = req.query.ips.split(",");
     const asn = req.query.asn;
     const org = req.query.org;
 
     if (!org) {
-        return res.status(400).json({
-            error: "Org handle is required"
-        });
+        return res.status(400).json({ error: "Org handle is required" });
     }
 
     try {
@@ -131,7 +128,7 @@ router.get("/rpkidelete", async (req, res) => {
         await rpkiDelete(handles, org);
 
         logActivity({
-            user: req.session?.user?.username ?? "unknown",
+            user: req.user?.username ?? "unknown",
             tool: "RPKI",
             action: "Delete",
             type: ips.length > 1 ? "Bulk" : "Single",
@@ -146,6 +143,7 @@ router.get("/rpkidelete", async (req, res) => {
             },
             duration: Date.now() - start
         });
+
         res.json({
             result: matched.map(r => ({
                 subnet: `${r.startAddress}/${r.cidrLength}`,
@@ -154,25 +152,45 @@ router.get("/rpkidelete", async (req, res) => {
         });
 
     } catch (err) {
-        logActivity({
-            user: req.user?.username ?? "unknown",
-            tool: "RPKI",
-            action: "Delete",
-            type: ips.length > 1 ? "Bulk" : "Single",
-            input: ips,
-            asn,
-            org,
-            status: "Failed",
-            result: {
-                success: 0,
-                failed: ips.length
-            },
-            error: err.message,
-            duration: Date.now() - start
-        });
-        res.status(500).json({
-            error: "Backend Error"
-        });
+        try {
+            logActivity({
+                user: req.user?.username ?? "unknown",
+                tool: "RPKI",
+                action: "Delete",
+                type: ips.length > 1 ? "Bulk" : "Single",
+                input: ips,
+                asn,
+                org,
+                status: "Failed",
+                result: {
+                    success: 0,
+                    failed: ips.length
+                },
+                error: err.message,
+                duration: Date.now() - start
+            });
+        } catch (logErr) {
+            console.error("Logging failed:", logErr);
+        }
+        res.status(500).json({ error: "Backend Error" });
+    }
+});
+
+/* ==========================================
+   DELETE ROA BY HANDLE
+========================================== */
+
+router.get("/rpkideletebyhandle", async (req, res) => {
+    const handles = req.query.handles.split(",");
+    const org = req.query.org;
+
+    if (!org) return res.status(400).json({ error: "Org handle is required" });
+
+    try {
+        await rpkiDelete(handles, org);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ error: "Backend Error" });
     }
 });
 

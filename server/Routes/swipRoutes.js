@@ -19,7 +19,7 @@ router.post("/swip/simple", async (req, res) => {
     try {
         await simpleSWIPUpdate(req, res);
         logActivity({
-            user: req.session?.user?.username ?? "unknown",
+            user: req.user?.username ?? "unknown",
             tool: "SWIP",
             action: "Simple SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -34,7 +34,7 @@ router.post("/swip/simple", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session?.user?.username ?? "unknown",
+            user: req.user?.username ?? "unknown",
             tool: "SWIP",
             action: "Simple SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -48,13 +48,9 @@ router.post("/swip/simple", async (req, res) => {
             duration: Date.now() - start
         });
         console.error(err);
-        res.status(500).json({
-            status: "error",
-            message: err.message
-        });
+        res.status(500).json({ status: "error", message: err.message });
     }
 });
-
 
 /* ==========================================
    DETAILED SWIP
@@ -66,7 +62,7 @@ router.post("/swip/detailed", async (req, res) => {
     try {
         await detailedSWIPUpdate(req, res);
         logActivity({
-            user: req.session?.user?.username ?? "unknown",
+            user: req.user?.username ?? "unknown",
             tool: "SWIP",
             action: "Detailed SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -81,7 +77,7 @@ router.post("/swip/detailed", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session?.user?.username ?? "unknown",
+            user: req.user?.username ?? "unknown",
             tool: "SWIP",
             action: "Detailed SWIP",
             type: req.body.records?.length > 1 ? "Bulk" : "Single",
@@ -95,10 +91,7 @@ router.post("/swip/detailed", async (req, res) => {
             duration: Date.now() - start
         });
         console.error(err);
-        res.status(500).json({
-            status: "error",
-            message: err.message
-        });
+        res.status(500).json({ status: "error", message: err.message });
     }
 });
 
