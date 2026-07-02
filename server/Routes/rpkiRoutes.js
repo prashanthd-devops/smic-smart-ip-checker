@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import { logActivity } from "../Utils/logger.js";
+import { requireAuth } from "../Middleware/auth.js";
 import {
     getRoas,
     checkExistingRoas,
@@ -9,6 +10,8 @@ import {
 } from "../Controllers/rpkiController.js";
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 /* ==========================================
    CHECK FOR EXISTING ROAs
@@ -152,7 +155,7 @@ router.get("/rpkidelete", async (req, res) => {
 
     } catch (err) {
         logActivity({
-            user: req.session.user.username,
+            user: req.user?.username ?? "unknown",
             tool: "RPKI",
             action: "Delete",
             type: ips.length > 1 ? "Bulk" : "Single",

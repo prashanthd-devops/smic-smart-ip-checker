@@ -1,12 +1,15 @@
 import "dotenv/config";
 import express from "express";
 import { logActivity } from "../Utils/logger.js";
+import { requireAuth } from "../Middleware/auth.js";
 import { users } from "../users.js";
 import ipConvertion from "../Controllers/bController.js";
 import geoFeeds from "../Controllers/gController.js";
 import routeValidate from "../Controllers/rController.js";
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 /*----------------------------------
 IP Reputation
