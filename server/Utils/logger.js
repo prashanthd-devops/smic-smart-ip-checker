@@ -5,7 +5,7 @@ export function logActivity(activity) {
 
     const timestamp = new Date();
 
-    // "2026-06-28T20-46-05-292"  (colons replaced with dashes for filename safety)
+    // "YYYY-MM-DDT20-46-05-292"  (colons replaced with dashes for filename safety)
     const readableTs = timestamp
         .toISOString()
         .replace(":", "-")   // after T
@@ -13,10 +13,10 @@ export function logActivity(activity) {
         .replace(".", "-");  // milliseconds
     const operationId = `OP-${readableTs}`;
 
-    // folder name like 2026-06-28
+    // folder name like YYYY-MM-DD
     const folderName = timestamp.toISOString().split("T")[0];
 
-    // logs/2026-06-28
+    // logs/YYYY-MM-DD
     const logDir = path.join(
         process.cwd(),
         "logs",
