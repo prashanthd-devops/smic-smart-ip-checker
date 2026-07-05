@@ -57,19 +57,7 @@ function pageView(paramId) {
         default:
             return;
     }
-
-    // const inputField = paramId === "route"
-    // ? `<textarea
-    //         id="${paramId}"
-    //         class="ip-input route-textarea"
-    //         rows="5"
-    //         spellcheck="false"
-    //         placeholder="203.0.113.0/24&#10;198.51.100.0/24"></textarea>`
-    // : `<input
-    //         id="${paramId}"
-    //         class="ip-input"
-    //         type="text"
-    //         placeholder="Enter IP Address / Prefix">`; 
+ 
     const inputField =
     paramId === "route"
         ? `<textarea

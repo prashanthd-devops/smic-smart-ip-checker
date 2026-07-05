@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const TOKEN_MAX_AGE = 1000 * 60 * 60 * 8; // 8 hours, matches old session maxAge
+const TOKEN_MAX_AGE = 1000 * 60 * 60 * 8; // 8 hours
 
 /* ---------------- LOGIN PAGE ---------------- */
 router.get("/", (req, res) => {

@@ -1,7 +1,7 @@
 export default async function routeValidate(ip) {
     const subnet = ip;
 
-    const irrURL = "https://irrexplorer.nlnog.net/api/prefixes/prefix/";
+    const irrURL = process.env.IRR_URL;
 
     try {
         const data = await fetch(`${irrURL}${subnet}`);

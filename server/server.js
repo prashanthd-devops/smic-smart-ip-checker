@@ -7,8 +7,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import toolRoutes from "./Routes/toolRoutes.js";
-import rpkiRoutes from "./Routes/rpkiRoutes.js";
-import swipRoutes from "./Routes/swipRoutes.js";
 import authRoutes from "./Routes/authRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,8 +25,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 /* ---------------- ROUTES ---------------- */
 app.use(authRoutes);
 app.use(toolRoutes);
-app.use(rpkiRoutes);
-app.use(swipRoutes);
 
 app.listen(PORT, () => {
     console.log(`server is running on http://localhost:${PORT}`);
