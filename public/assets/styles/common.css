@@ -84,7 +84,7 @@ header h1{
    FOOTER
 ====================================== */
 
-footer{
+/* footer{
     text-align:center;
     padding:18px;
     border-top:1px solid rgba(255,255,255,.08);
@@ -95,6 +95,19 @@ footer small{
     display:block;
     margin-top:8px;
     color:#888;
+} */
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: #bdbdbd;
+}
+
+footer small {
+    margin: 0;
+    color: #888;
 }
 
 /* ======================================

@@ -9,7 +9,7 @@ const client = new WebServiceClient(accountId, licenseKey, {
 
 
 export default async function geoFeeds(ip) {
-// const mm = await client.city(ip);
+
 const ipinfoToken = process.env.IPINFO_TOKEN;
 const ip2locationKey = process.env.IP2LOCATION_KEY;
 const iphubKey = process.env.IPHUB_KEY;

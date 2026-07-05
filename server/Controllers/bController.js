@@ -1,5 +1,5 @@
 import dns from "dns/promises";
-import DNSBLS from "../DNSBLS/dnsblLists.js";
+import DNSBLS from "../DNSBLS/dnsblList.js";
 
 export default async function ipConvertion(subnet) {
 
