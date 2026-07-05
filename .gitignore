@@ -1,3 +1,5 @@
+#==========Backend Ignores==========#
+
 # Dependencies
 node_modules/
 server/node_modules/
@@ -14,9 +16,24 @@ server/Controllers/sskiController.js
 # Old DNSBL Ignore
 server/DNSBL/dnsblList.js
 
+# Routes Ignore
+server/Routes/rpkiRoutes
+server/Routes/swipRoutes
 
 # UserList
 server/users.js
 
 # Logs
 server/logs
+
+#==========Frontend Ignores==========#
+
+# Scripts Ignore
+/public/assets/scripts/report/
+/public/assets/scripts/rpki/
+/public/assets/scripts/swip/
+
+# Styling Ignore
+/public/assets/styles/report.css
+/public/assets/styles/rpki.css
+/public/assets/styles/swip.css
